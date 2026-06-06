@@ -69,7 +69,8 @@ For the LLM presets, install [Ollama](https://ollama.com) and run `ollama pull q
 
 ### B) Reproduce the paper's numbers (no GPU/Ollama needed)
 The frozen per-record outputs are in `results/per_record/`, so the tables, confidence
-intervals, and figure can be recomputed directly:
+intervals, and figure can be recomputed directly. **One command:** `bash reproduce.sh`
+(Linux/macOS/Git Bash), `reproduce.bat` (Windows), or `make reproduce`. Step by step:
 ```bash
 pip install -r requirements.txt
 python metricas_utilidade.py     # over-removal / retention per configuration
