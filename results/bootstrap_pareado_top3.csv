@@ -1,0 +1,7 @@
+config_a,config_b,metrica,dif_media,dif_ic95_inf,dif_ic95_sup,contem_zero
+hibrido_qwen3-8b,encadeado_qwen3-8b_llm_ner,recall_seguranca_macro,0.0000,-0.0005,0.0006,sim
+hibrido_qwen3-8b,encadeado_qwen3-8b_llm_ner,micro_f1,-0.0073,-0.0101,-0.0046,nao
+hibrido_qwen3-8b,llm_gemma3-12b,recall_seguranca_macro,0.0175,0.0123,0.0242,nao
+hibrido_qwen3-8b,llm_gemma3-12b,micro_f1,-0.2838,-0.3107,-0.2556,nao
+encadeado_qwen3-8b_llm_ner,llm_gemma3-12b,recall_seguranca_macro,0.0175,0.0123,0.0242,nao
+encadeado_qwen3-8b_llm_ner,llm_gemma3-12b,micro_f1,-0.2765,-0.3036,-0.2485,nao

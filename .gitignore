@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+app/anonimizador.db
+checkpoint*/
+.venv/
+fig_tradeoff.pdf

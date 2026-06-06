@@ -1,0 +1,4 @@
+# Banco local com usuários e hashes de chaves de API — NÃO versionar
+anonimizador.db
+__pycache__/
+*.pyc

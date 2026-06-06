@@ -1,0 +1,112 @@
+# =============================================================================
+# config.yaml — Pipeline de anonimização de históricos de BO (crimes de ROUBO)
+# -----------------------------------------------------------------------------
+# Toda a configuração da pipeline fica aqui. NÃO fixar IPs/portas/segredos no
+# código. Edite este arquivo para apontar para seu servidor Ollama, escolher
+# modelos e ajustar caminhos. Os scripts leem este arquivo via PyYAML.
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# Caminhos (relativos à raiz do projeto)
+# ---------------------------------------------------------------------------
+paths:
+  dataset: "data/bos_anonimizacao_CAP_descaracterizado.xlsx"   # dataset + gabarito (996 BOs)
+  coluna_texto_entrada: "Texto Descaracterizado"   # base publicável; gabarito é verbatim desta coluna
+  coluna_seq: "Seq"
+  saida_dir: "results/per_record"                              # CSVs de saída da pipeline
+  checkpoint_dir: "checkpoint_roubo"               # retomada por configuração
+  resultados_dir: "results"           # tabelas do harness
+
+# ---------------------------------------------------------------------------
+# Estágio 2 — back-end LLM via Ollama (endpoint OpenAI-compat / API nativa)
+# ---------------------------------------------------------------------------
+llm:
+  # Monte a URL a partir de host+porta; nada hardcoded no código.
+  host: "127.0.0.1"            # ex.: IP do servidor de GPU na rede interna
+  porta: 11434                 # porta padrão do Ollama
+  api_key: "ollama"            # placeholder exigido pelo client OpenAI-compat
+  temperature: 0.1             # determinístico, igual para todos (comparação justa)
+  think: false                 # desabilita cadeia de pensamento (throughput)
+  max_tokens: 512
+  timeout_s: 300
+  max_retries: 3
+  # Modelos LLM a comparar (todos locais via Ollama). qwen3:8b é a âncora (VDM).
+  modelos:
+    - "qwen3:8b"
+    - "llama3.1:8b"
+    - "gemma3:12b"
+  # Opcionais (habilitar se a GPU permitir):
+  modelos_opcionais:
+    - "qwen3:14b"
+    - "qwen3:30b"
+    - "deepseek-r1:14b"   # disponível na máquina; 4ª linha opcional (reasoning + <think> filtrado)
+
+# ---------------------------------------------------------------------------
+# Estágio 2 — back-end NER dedicado local
+# ---------------------------------------------------------------------------
+ner:
+  spacy_model: "pt_core_news_lg"
+  # BERTimbau-NER: preferir checkpoint fine-tunado p/ PT-BR (LeNER-Br = corpus
+  # jurídico aderente ao vocabulário policial). Ajuste o id do HuggingFace.
+  bertimbau_model: "neuralmind/bert-base-portuguese-cased"
+  bertimbau_ner_checkpoint: "pierreguillou/ner-bert-large-cased-pt-lenerbr"  # LeNER-Br, sem CRF
+  # Opcional: encoder de geração mais nova
+  mmbert_model: "answerdotai/ModernBERT-base"
+  device: "cuda"   # "cuda" ou "cpu"
+
+# ---------------------------------------------------------------------------
+# Presidio — baseline de SISTEMA (recomendação B): pipeline próprio é a
+# espinha dorsal; Presidio entra como uma linha de comparação out-of-the-box.
+# ---------------------------------------------------------------------------
+presidio:
+  habilitado: true
+  # motor NER que o Presidio usa por baixo (mesmo spaCy que avaliamos isolado,
+  # por isso a linha do Presidio mede o PACOTE, não a detecção pura).
+  nlp_engine: "spacy"
+  spacy_model: "pt_core_news_lg"
+  idioma: "pt"
+
+# ---------------------------------------------------------------------------
+# De-para: placeholders granulares da pipeline -> 8 colunas do gabarito.
+# Editável. Placeholders institucionais ("hygiene") NÃO entram nas métricas de
+# PII de pessoa física, mas são registrados à parte.
+# ---------------------------------------------------------------------------
+de_para:
+  "[NOME]": "Nome(s)"
+  "[ENDERECO]": "Localizações (s)"
+  "[CEP]": "Localizações (s)"
+  "[COORDENADA]": "Localizações (s)"
+  "[LOCAL]": "Localizações (s)"
+  "[ESTABELECIMENTO]": "Localizações (s)"
+  "[CPF]": "Documento(s)"
+  "[RG]": "Documento(s)"
+  "[CNH]": "Documento(s)"
+  "[IMEI]": "Documento(s)"
+  "[REG_PROF]": "Documento(s)"
+  "[PLACA]": "Emplacamento (s)"
+  "[TELEFONE]": "Telefone (s)"
+  "[EMAIL]": "Email (s) e contas (ex: instagram)"
+  "[REDE_SOCIAL]": "Email (s) e contas (ex: instagram)"
+  "[URL]": "Email (s) e contas (ex: instagram)"
+  "[VIATURA]": "N° da VTR"
+  "[VULGO]": "Vulgo(s)/Apelido(s)"
+
+# Placeholders puramente institucionais — removidos por higiene, FORA das
+# métricas de PII de pessoa física (registrados à parte).
+placeholders_higiene:
+  - "[BO]"
+  - "[PROCESSO]"
+  - "[PROTOCOLO]"
+  - "[INQUERITO]"
+  - "[OFICIO]"
+  - "[CODIGO]"
+  - "[DATA]"
+
+# ---------------------------------------------------------------------------
+# Avaliação
+# ---------------------------------------------------------------------------
+avaliacao:
+  # casamento robusto na comparação entidade x gabarito
+  case_insensitive: true
+  remover_acentos: true
+  tolerante_pontuacao: true

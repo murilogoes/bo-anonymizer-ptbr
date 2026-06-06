@@ -1,0 +1,11 @@
+config,n,recall_seguranca_macro,micro_f1,micro_prec,tp_total,fp_total,taxa_sobre_remocao,pct_texto_substituido,retencao_conteudo,reconciliacao
+encadeado_qwen3-8b_llm_ner,996,0.9856,0.5037,0.3453,1265,2399,0.6547,0.0653,0.9347,sem_arquivo
+encadeado_qwen3-8b_ner_llm,996,0.9846,0.4816,0.3294,1217,2478,0.6706,0.0661,0.9339,sem_arquivo
+hibrido_qwen3-8b,996,0.9856,0.4964,0.3381,1268,2482,0.6619,0.0664,0.9336,ok
+llm_gemma3-12b,996,0.9699,0.7800,0.7156,1165,463,0.2844,0.0404,0.9596,sem_arquivo
+llm_llama3.1-8b,996,0.9742,0.7876,0.7201,1181,459,0.2799,0.0406,0.9594,sem_arquivo
+llm_qwen3-8b,996,0.9661,0.8257,0.7977,1163,295,0.2023,0.0404,0.9596,sem_arquivo
+ner_bertimbau,996,0.8319,0.4828,0.3396,1134,2205,0.6604,0.0403,0.9597,sem_arquivo
+ner_spacy,996,0.9669,0.4695,0.3262,1138,2351,0.6738,0.0627,0.9373,sem_arquivo
+presidio,996,0.9669,0.4695,0.3262,1138,2351,0.6738,0.0627,0.9373,sem_arquivo
+regex_only,996,0.6516,0.3169,0.7206,276,107,0.2794,0.0203,0.9797,sem_arquivo

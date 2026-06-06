@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this dataset, code, or tool, please cite the paper below."
+title: "Local Anonymization of Free-Text Robbery Police Reports in Brazilian Portuguese: a Safety-Recall-Oriented Multi-Model Benchmark"
+authors:
+  - family-names: "de Almeida"
+    given-names: "Murilo G."
+    affiliation: "Universidade Estadual Paulista (UNESP)"
+  - family-names: "Botega"
+    given-names: "Leonardo C."
+    affiliation: "Universidade Estadual Paulista (UNESP)"
+  - family-names: "de Paiva Lima"
+    given-names: "Paula Miwa"
+    affiliation: "Polícia Militar do Estado de São Paulo / SSP (CAP/SSP)"
+repository-code: "https://github.com/murilogoes/bo-anonymizer-ptbr"
+year: 2026
+conference:
+  name: "Symposium on Knowledge Discovery, Mining and Learning (KDMiLe)"

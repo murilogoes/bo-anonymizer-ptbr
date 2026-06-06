@@ -1,0 +1,9 @@
+# Reprodução das análises (sem Ollama): tabelas, ICs e figura
+numpy>=1.24
+pandas>=2.0
+openpyxl>=3.1
+pyyaml>=6.0
+matplotlib>=3.7
+# Para REGERAR as saídas por registro (opcional; requer também Ollama + modelos):
+spacy>=3.7
+requests>=2.31
