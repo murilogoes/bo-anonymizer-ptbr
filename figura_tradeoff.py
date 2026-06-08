@@ -23,7 +23,7 @@ ordem=[
  ("llm_llama3.1-8b","llama3.1:8b",False),
  ("encadeado_qwen3-8b_ner_llm","chained ner$\\rightarrow$llm",False),
  ("encadeado_qwen3-8b_llm_ner","chained llm$\\rightarrow$ner",False),
- ("hibrido_qwen3-8b","union spaCy$\\cup$qwen3 (max-safety)",True),
+ ("hibrido_qwen3-8b","union spaCy$\\cup$qwen3 (highest recall)",True),
 ]
 ys=list(range(len(ordem)))
 fig,ax=plt.subplots(figsize=(6.4,3.9))
